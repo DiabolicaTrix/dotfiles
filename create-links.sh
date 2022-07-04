@@ -7,3 +7,6 @@ do
     ln -f "$file" "/home/alexy/.$file" 
   fi
 done
+
+rm -rf "$HOME/.oh-my-zsh/custom"
+ln -s -f "$PWD/omz-custom/" "$HOME/.oh-my-zsh/custom"
