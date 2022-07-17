@@ -1,10 +1,10 @@
-for file in *
+for file in dotfiles/*
 do
   if [ -d "$file" ]; then
     rm -rf "$HOME/.$file"
-    ln -s -f "$PWD/$file/" "$HOME/.$file"
+    ln -s -f "$PWD/dotfiles/$file/" "$HOME/.$file"
   else
-    ln -f "$file" "/home/alexy/.$file" 
+    ln -f "$file" "/home/$USER/.$file" 
   fi
 done
 
