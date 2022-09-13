@@ -36,6 +36,9 @@ return require('packer').startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   } 
 
+  -- Specific languages
+  use 'fatih/vim-go'
+
   if packer_bootstrap then
     require('packer').sync()
   end

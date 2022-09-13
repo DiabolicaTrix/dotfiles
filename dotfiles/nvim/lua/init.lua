@@ -17,5 +17,11 @@ require('nvim-treesitter.configs').setup {
 vim.g.coq_settings = {
   auto_start = 'shut-up',
 }
+
+-- LSP
+require'lspconfig'.gopls.setup{}
+
 require('coq')
 require('keybinds')
+
+

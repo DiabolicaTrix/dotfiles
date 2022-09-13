@@ -1,8 +1,11 @@
 amd-ucode
 base-devel
+man
 sudo
+wget
 gcc
 git
+go
 clang
 docker
 docker-compose
@@ -19,6 +22,7 @@ kubectx
 gnome
 gnome-tweaks
 sway
+networkmanager
 polybar
 rofi
 powerline-fonts
