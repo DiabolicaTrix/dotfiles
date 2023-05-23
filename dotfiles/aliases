@@ -13,35 +13,13 @@ alias kgp="k get pods"
 alias kd="k describe"
 alias kdp="k describe pods"
 
-function ktn() {
-  local verb="${1}"
-  local resource="${2}"
-  local app="${3}"
-  local rest=("${@:4}")
-  kubectl ${verb} ${resource} -l "tug.jive.com/app=${app}" ${rest}
-}
-
-function ktp() {
-  local verb="${1}"
-  local resource="${2}"
-  local project="${3}"
-  local rest=("${@:4}")
-  kubectl ${verb} ${resource} -l "tug.jive.com/project=${project}" ${rest}
-}
-
-# Tug
-alias tug=tugctl
-alias te="tug exec -i -t"
-alias tps="tug ps"
-
 # Git
 alias gc="git checkout"
 alias gp="git push"
 alias gcb="git checkout -B"
 
-# jcr.io
-
-function jcr-list() {
-  local tag="${1}"
-  curl "https://jcr.io/v2/${tag}/tags/list" | jq
+function gci() {
+  git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)
 }
+
+
