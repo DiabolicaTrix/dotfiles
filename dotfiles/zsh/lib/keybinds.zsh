@@ -137,3 +137,15 @@ bindkey "^[m" copy-prev-shell-word
 #bindkey -s '^[[Z' '\t'
 #
 
+function tmux_next() {
+  tmux next &>/dev/null
+}
+zle -N tmux_next
+
+function tmux_previous() {
+  tmux prev &>/dev/null
+}
+zle -N tmux_previous
+
+bindkey '^[tmux-previous' tmux_previous 
+bindkey '^[tmux-next' tmux_next
