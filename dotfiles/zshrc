@@ -2,6 +2,8 @@
 export PATH=$PATH:$HOME/go/bin
 export ZSH="$HOME/.zsh"
 
+source "$ZSH/init.sh"
+
 ### Plugins and scripts 
 plugins=(
     dirhistory
@@ -43,7 +45,7 @@ fi
 
 ### Aliases
 source $HOME/.aliases
-source $HOME/.aliases.work
+#source $HOME/.aliases.work
 
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
