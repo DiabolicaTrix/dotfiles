@@ -1,6 +1,6 @@
 ### PATH
-export PATH=$PATH:$HOME/go/bin
-export ZSH="$HOME/.zsh"
+PATH=$PATH:$HOME/go/bin
+ZSH="$HOME/.zsh"
 
 source "$ZSH/init.sh"
 
@@ -33,19 +33,24 @@ ZSH_THEME="cobalt2"
 source "$HOME/.zsh/themes/$ZSH_THEME.zsh-theme"
 
 ### TMUX Config
-export KUBE_TMUX_CLUSTER_FUNCTION=get_cluster_short
-export ZSH_TMUX_AUTOSTART=true
+KUBE_TMUX_CLUSTER_FUNCTION=get_cluster_short
+ZSH_TMUX_AUTOSTART=true
 
 ### Editor
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  EDITOR='vim'
 else
-  export EDITOR='nvim'
+  EDITOR='nvim'
 fi
+
+### History
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+PROMPT_COMMAND="history -a; history -n"
 
 ### Aliases
 source $HOME/.aliases
-#source $HOME/.aliases.work
+source $HOME/.aliases.work
 
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 

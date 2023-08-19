@@ -7,5 +7,17 @@ function map(mode, lhs, rhs, opts)
 end
 
 map('n', '<Leader>n', ':CHADopen<CR>')
-map('n', '<C-w><Left>', ':bp<CR>')
-map('n', '<C-w><Right>', ':bn<CR>')
+map('n', '<A-Left>', ':bp<CR>')
+map('n', '<A-Right>', ':bn<CR>')
+map('n', '<A-CR>', ':GoDef<CR>')
+map('n', '<A-Up>', ':wincmd w<CR>')
+
+
+local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<Leader>ff', telescope.find_files, {})
+vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
+vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
+vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
+
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-CR>", 'copilot#Accept("<CR>")', { silent = true, expr = true })

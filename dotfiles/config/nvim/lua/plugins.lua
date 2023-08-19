@@ -1,4 +1,3 @@
-
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -19,6 +18,7 @@ return require('packer').startup(function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
 
+  -- Navigation
   use { 
     'ms-jpq/chadtree',
     branch = 'chad',
@@ -26,15 +26,29 @@ return require('packer').startup(function(use)
   }
 
   use {
+    'nvim-telescope/telescope.nvim',
+    requires = { {'nvim-lua/plenary.nvim'}, { 'kyazdani42/nvim-web-devicons', opt = true } }
+  }
+
+  use {
     'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
   -- Theming
   use 'drewtempelmeyer/palenight.vim'
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  } 
+
+
+  -- Text Editing
+  use 'tpope/vim-sensible'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-endwise'
+
+  -- Coding
+  use 'github/copilot.vim'
 
   -- Specific languages
   use 'fatih/vim-go'
