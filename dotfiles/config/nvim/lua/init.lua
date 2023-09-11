@@ -29,5 +29,5 @@ require'lspconfig'.gopls.setup{}
 
 require('coq')
 require('keybinds')
-
+require('debugging')
 

@@ -18,6 +18,15 @@ return require('packer').startup(function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
 
+  -- Debugging
+  use 'mfussenegger/nvim-dap'
+  use 'theHamsta/nvim-dap-virtual-text'
+  use {
+    'rcarriga/nvim-dap-ui',
+    requires = 'mfussenegger/nvim-dap'
+  }
+  use 'leoluz/nvim-dap-go'
+
   -- Navigation
   use { 
     'ms-jpq/chadtree',
@@ -51,7 +60,7 @@ return require('packer').startup(function(use)
   use 'github/copilot.vim'
 
   -- Specific languages
-  use 'fatih/vim-go'
+  -- use 'fatih/vim-go'
 
   if packer_bootstrap then
     require('packer').sync()
