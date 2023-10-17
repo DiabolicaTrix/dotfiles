@@ -1,0 +1,25 @@
+alias vi=$EDITOR
+alias vim=$EDITOR
+alias yqx="yq e -C -P -"
+
+# Kubernetes
+alias ke="k exec -it"
+alias kns=kubens
+alias kcx=kubectx
+alias k=kubectl
+alias kl="k logs"
+alias kg="k get"
+alias kgp="k get pods"
+alias kd="k describe"
+alias kdp="k describe pods"
+
+# Git
+alias gc="git checkout"
+alias gp="git push"
+alias gcb="git checkout -B"
+
+function gci() {
+  git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)
+}
+
+

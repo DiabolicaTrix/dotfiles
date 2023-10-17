@@ -1,0 +1,56 @@
+### PATH
+PATH=$PATH:$HOME/go/bin
+ZSH="$HOME/.zsh"
+
+source "$ZSH/init.sh"
+
+### Plugins and scripts 
+plugins=(
+    dirhistory
+    fancy-ctrl-z
+    git
+    sudo
+    tmux
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
+
+# Load all of the plugins that were defined in ~/.zshrc
+for plugin ($plugins); do
+if [[ -f "$ZSH/plugins/$plugin/$plugin.plugin.zsh" ]]; then
+    source "$ZSH/plugins/$plugin/$plugin.plugin.zsh"
+fi
+done
+unset plugin
+
+# Load config files
+for config_file ("$ZSH"/lib/*.zsh); do
+  source "$config_file"
+done
+
+### Theming
+ZSH_THEME="cobalt2"
+source "$HOME/.zsh/themes/$ZSH_THEME.zsh-theme"
+
+### TMUX Config
+KUBE_TMUX_CLUSTER_FUNCTION=get_cluster_short
+ZSH_TMUX_AUTOSTART=true
+
+### Editor
+if [[ -n $SSH_CONNECTION ]]; then
+  EDITOR='vim'
+else
+  EDITOR='nvim'
+fi
+
+### History
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+PROMPT_COMMAND="history -a; history -n"
+
+### Aliases
+source $HOME/.aliases
+
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
+ulimit -n 10240
