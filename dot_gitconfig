@@ -1,0 +1,12 @@
+[user]
+	name = Alexy
+  email = alexy@mantha.dev
+[gpg]
+	format = ssh
+[commit]
+  gpgsign = true
+[push]
+	autoSetupRemote = true
+[gpg "ssh"]
+  defaultKeyCommand = get_signing_key 
+
