@@ -1,5 +1,5 @@
 ### PATH
-PATH=$PATH:$HOME/go/bin
+PATH=$PATH:$HOME/go/bin:$HOME/.scripts
 ZSH="$HOME/.zsh"
 
 source "$ZSH/init.sh"
