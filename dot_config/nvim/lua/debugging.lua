@@ -3,7 +3,12 @@ require('dap-go').setup()
 require("nvim-dap-virtual-text").setup()
 
 vim.keymap.set('n', '<Leader>d', function() require('dapui').open() end)
-vim.keymap.set('n', '<Leader>dc', function() require('dap').continue() end)
+vim.keymap.set('n', '<Leader>dc', function()
+  if vim.fn.filereadable('.vscode/launch.json') then
+    require('dap.ext.vscode').load_launchjs()
+  end  
+  require('dap').continue()  
+end)
 vim.keymap.set('n', '<Leader>do', function() require('dap').step_over() end)
 vim.keymap.set('n', '<Leader>di', function() require('dap').step_into() end)
 vim.keymap.set('n', '<Leader>dout', function() require('dap').step_out() end)
