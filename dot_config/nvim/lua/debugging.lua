@@ -1,4 +1,26 @@
-require("dapui").setup()
+require("dapui").setup({
+  layouts = { {
+    elements = { {
+      id = "scopes",
+      size = 0.50
+    }, {
+        id = "watches",
+        size = 0.30
+      }, {
+        id = "breakpoints",
+        size = 0.20
+      } },
+    position = "left",
+    size = 40
+  }, {
+      elements = { {
+        id = "repl",
+        size = 1
+      } },
+      position = "bottom",
+      size = 10
+    } },
+})
 require('dap-go').setup()
 require("nvim-dap-virtual-text").setup()
 
@@ -14,7 +36,6 @@ end)
 vim.keymap.set('n', '<F6>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<F7>', function() require('dap').step_into() end)
 vim.keymap.set('n', '<F8>', function() require('dap').step_out() end)
->>>>>>> 431ab8b (Changes)
 vim.keymap.set('n', '<Leader>db', function() require('dap').toggle_breakpoint() end)
 vim.keymap.set('n', '<Leader>dB', function() require('dap').set_breakpoint() end)
 vim.keymap.set('n', '<Leader>dC', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)

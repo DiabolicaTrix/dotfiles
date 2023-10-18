@@ -17,6 +17,10 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
+  use {
+    'stevearc/aerial.nvim',
+    config = function() require('aerial').setup() end
+  }
   use 'towolf/vim-helm' -- Helm not working properly with treesitter so using a custom plugin
 
   -- Debugging
