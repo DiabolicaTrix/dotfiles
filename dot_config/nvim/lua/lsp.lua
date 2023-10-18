@@ -1,7 +1,19 @@
+local configs = require('lspconfig.configs')
 local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.tsserver.setup {}
-lspconfig.gopls.setup {}
+local util = require('lspconfig.util')
+
+vim.g.coq_settings = {
+  auto_start = 'shut-up',
+}
+local coq = require "coq"
+
+lspconfig.pyright.setup(coq.lsp_ensure_capabilities())
+lspconfig.tsserver.setup(coq.lsp_ensure_capabilities())
+lspconfig.gopls.setup(coq.lsp_ensure_capabilities())
+--lspconfig.yamlls.setup {}
+lspconfig.helm_ls.setup(coq.lsp_ensure_capabilities())
+lspconfig.terraformls.setup(coq.lsp_ensure_capabilities())
+lspconfig.dockerls.setup{coq.lsp_ensure_capabilities()}
 
 vim.keymap.set('n', '[e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -32,7 +44,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
+    vim.keymap.set('n', '<Leader>bf', function()
       vim.lsp.buf.format { async = true }
     end, opts)
   end,

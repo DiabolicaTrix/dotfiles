@@ -2,6 +2,18 @@
 PATH=$PATH:$HOME/go/bin:$HOME/.scripts
 ZSH="$HOME/.zsh"
 
+### SSH Agent
+# Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
+eval $(ssh-agent -s -P "/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib/*" | grep SSH_)
+
+# Check if a YubiKey is detected
+ykman info &> /dev/null
+if [[ "$?" == 0 ]]; then
+  # Add PIV card
+  # NOTE: this will require the Yubikey pin when loading
+  ssh-add -s "/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib/libykcs11.dylib"
+fi
+
 source "$ZSH/init.sh"
 
 ### Plugins and scripts 
@@ -42,6 +54,7 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   EDITOR='nvim'
 fi
+export EDITOR
 
 ### History
 # Avoid duplicates
@@ -50,7 +63,10 @@ PROMPT_COMMAND="history -a; history -n"
 
 ### Aliases
 source $HOME/.aliases
+if [[ -f $HOME/.aliases.work ]]; then
+  source $HOME/.aliases.work
+fi
 
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
-ulimit -n 10240
+ulimit -n 50240

@@ -1,2 +1,3 @@
 #!/bin/bash
+# Add key:: prefix to explicitely tell Git it is a key
 ssh-add -L | grep "Digital Signature" | awk '$0="key::"$0'

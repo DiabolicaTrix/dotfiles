@@ -6,28 +6,11 @@ end
 
 require('plugins')
 require('lsp')
+require('treesitter')
+require('keybinds')
+require('debugging')
+
 require('lualine').setup {
   options = { theme  = 'palenight' }
 }
-
-require('nvim-treesitter.configs').setup {
-  auto_install = true,
-  highlight = {
-    enable = true
-  },
-  indent = {
-    enable = true
-  }
-}
-
-vim.g.coq_settings = {
-  auto_start = 'shut-up',
-}
-
--- LSP
-require'lspconfig'.gopls.setup{}
-
-require('coq')
-require('keybinds')
-require('debugging')
 
