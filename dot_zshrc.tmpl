@@ -3,15 +3,23 @@ PATH=$PATH:$HOME/go/bin:$HOME/.scripts
 ZSH="$HOME/.zsh"
 
 ### SSH Agent
+{{- if eq .chezmoi.os "darwin" }}
+YKCS_PROVIDER="/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib"
+YKCS_PATH="$YKCS_PROVIDER/libykcs11.dylib"
+{{- else if eq .chezmoi.os "linux" }}
+export LD_LIBRARY_PATH="/usr/local/lib"
+YKCS_PROVIDER="/usr/local/lib"
+YKCS_PATH="$YKCS_PROVIDER/libykcs11.so"
+{{- end }}
 # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
-eval $(ssh-agent -s -P "/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib/*" | grep SSH_)
+eval $(ssh-agent -s -P "$YKCS_PROVIDER/*" | grep SSH_)
 
 # Check if a YubiKey is detected
 ykman info &> /dev/null
 if [[ "$?" == 0 ]]; then
   # Add PIV card
   # NOTE: this will require the Yubikey pin when loading
-  ssh-add -s "/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib/libykcs11.dylib"
+  ssh-add -s "$YKCS_PATH"
 fi
 
 source "$ZSH/init.sh"
@@ -70,3 +78,11 @@ fi
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
 ulimit -n 50240
+
+{{ if eq .chezmoi.os "linux" }}
+### Force wayland
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORM=wayland
+export GDK_BACKEND=wayland
+export MOZ_ENABLE_WAYLAND=1
+{{ end}}
