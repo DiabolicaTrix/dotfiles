@@ -14,6 +14,12 @@ lspconfig.gopls.setup(coq.lsp_ensure_capabilities())
 lspconfig.helm_ls.setup(coq.lsp_ensure_capabilities())
 lspconfig.terraformls.setup(coq.lsp_ensure_capabilities())
 lspconfig.dockerls.setup{coq.lsp_ensure_capabilities()}
+require'lspconfig'.groovyls.setup{
+    -- Unix
+    cmd = { "java", "-jar", "~/.scripts/groovy-language-server-all.jar" },
+    coq.lsp_ensure_capabilities()
+}
+
 
 vim.keymap.set('n', '[e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -58,4 +64,4 @@ require('aerial').setup({
   end
 })
 
-vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
+vim.keymap.set('n', '<leader>s', '<cmd>AerialToggle!<CR>')

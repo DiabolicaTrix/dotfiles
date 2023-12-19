@@ -1,3 +1,5 @@
+vim.g.mapleader = ","
+
 function map(mode, lhs, rhs, opts)
     local options = { noremap = true }
     if opts then
@@ -6,10 +8,8 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map('n', '<Leader>n', ':CHADopen<CR>')
 map('n', '<A-Left>', ':bp<CR>')
 map('n', '<A-Right>', ':bn<CR>')
-map('n', '<A-CR>', ':GoDef<CR>')
 map('n', '<A-Up>', ':wincmd w<CR>')
 
 -- Resizing
