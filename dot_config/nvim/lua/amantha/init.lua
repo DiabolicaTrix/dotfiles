@@ -1,5 +1,3 @@
-require('plugins')
-require('lsp')
-require('treesitter')
-require('keybinds')
-require('debugging')
+require('amantha.plugins')
+require('amantha.keybinds')
+require('amantha.set')
