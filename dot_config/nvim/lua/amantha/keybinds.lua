@@ -1,21 +1,14 @@
 vim.g.mapleader = " "
 
-function map(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
-map('n', '<A-Left>', ':bp<CR>')
-map('n', '<A-Right>', ':bn<CR>')
-map('n', '<A-Up>', ':wincmd w<CR>')
+-- Window Movement
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- Resizing
 vim.keymap.set('n', '<C-<>', ':vertical resize -2<CR>')
 vim.keymap.set('n', '<C->>', ':vertical resize +2<CR>')
 
+-- Telescope
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<Leader>ff', telescope.git_files, {})
 vim.keymap.set('n', '<Leader>pf', telescope.find_files, {})
@@ -24,6 +17,7 @@ vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
 vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
 vim.keymap.set('n', '<leader>fs', function() require("telescope").extensions.aerial.aerial() end)
 
+-- Copilot
 vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("i", "<C-CR>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
