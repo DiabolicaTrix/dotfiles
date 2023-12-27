@@ -1,3 +1,7 @@
+-- Mason
+-- Needs to be setup before lspconfig
+require("mason").setup()
+require("mason-lspconfig").setup()
 
 local lspconfig = require('lspconfig')
 local util = require('lspconfig.util')
@@ -65,3 +69,4 @@ require('aerial').setup({
 })
 
 vim.keymap.set('n', '<leader>s', '<cmd>AerialToggle!<CR>')
+
