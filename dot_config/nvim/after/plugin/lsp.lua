@@ -1,3 +1,5 @@
+local coq = require("coq")
+
 -- Mason
 -- Needs to be setup before lspconfig
 require("mason").setup()
@@ -6,23 +8,21 @@ require("mason-lspconfig").setup()
 local lspconfig = require('lspconfig')
 local util = require('lspconfig.util')
 
-vim.g.coq_settings = {
-  auto_start = 'shut-up',
-}
-local coq = require "coq"
-
 lspconfig.pyright.setup(coq.lsp_ensure_capabilities())
 lspconfig.tsserver.setup(coq.lsp_ensure_capabilities())
+lspconfig.volar.setup(coq.lsp_ensure_capabilities())
 lspconfig.gopls.setup(coq.lsp_ensure_capabilities())
 --lspconfig.yamlls.setup {}
 lspconfig.helm_ls.setup(coq.lsp_ensure_capabilities())
 lspconfig.terraformls.setup(coq.lsp_ensure_capabilities())
 lspconfig.dockerls.setup{coq.lsp_ensure_capabilities()}
-require'lspconfig'.groovyls.setup{
+lspconfig.groovyls.setup{
     -- Unix
     cmd = { "java", "-jar", "~/.scripts/groovy-language-server-all.jar" },
     coq.lsp_ensure_capabilities()
 }
+
+lspconfig.gdscript.setup(coq.lsp_ensure_capabilities())
 
 
 vim.keymap.set('n', '[e', vim.diagnostic.open_float)

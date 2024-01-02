@@ -29,4 +29,8 @@ vim.opt.colorcolumn = "80"
 
 vim.opt.hidden = true
 
-vim.cmd("colorscheme palenight")
+vim.cmd("colorscheme catppuccin-macchiato")
+
+vim.g.coq_settings = {
+  auto_start = 'shut-up',
+}

@@ -55,13 +55,7 @@ return require('packer').startup(function(use)
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
     -- Theming
-    use {
-        'drewtempelmeyer/palenight.vim',
-        config = function()
-            vim.cmd("colorscheme palenight")
-        end
-    }
-
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     -- Text Editing
     use 'tpope/vim-sensible'

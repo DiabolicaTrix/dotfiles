@@ -78,7 +78,6 @@ fi
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
 		"tmux_session_info 148 234" \
-		"hostname 33 0" \
 	)
 fi
 
