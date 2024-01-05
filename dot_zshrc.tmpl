@@ -4,7 +4,7 @@ ZSH="$HOME/.zsh"
 
 ### SSH Agent
 {{- if eq .chezmoi.os "darwin" }}
-YKCS_PROVIDER="/opt/homebrew/Cellar/yubico-piv-tool/2.3.1/lib"
+YKCS_PROVIDER="/opt/homebrew/Cellar/yubico-piv-tool/2.4.2/lib"
 YKCS_PATH="$YKCS_PROVIDER/libykcs11.dylib"
 {{- else if eq .chezmoi.os "linux" }}
 export LD_LIBRARY_PATH="/usr/local/lib"

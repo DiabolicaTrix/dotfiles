@@ -14,6 +14,7 @@ lspconfig.volar.setup(coq.lsp_ensure_capabilities())
 lspconfig.gopls.setup(coq.lsp_ensure_capabilities())
 --lspconfig.yamlls.setup {}
 lspconfig.helm_ls.setup(coq.lsp_ensure_capabilities())
+lspconfig.jsonls.setup(coq.lsp_ensure_capabilities())
 lspconfig.terraformls.setup(coq.lsp_ensure_capabilities())
 lspconfig.dockerls.setup{coq.lsp_ensure_capabilities()}
 lspconfig.groovyls.setup{

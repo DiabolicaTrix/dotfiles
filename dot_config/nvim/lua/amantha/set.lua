@@ -32,5 +32,9 @@ vim.opt.hidden = true
 vim.cmd("colorscheme catppuccin-macchiato")
 
 vim.g.coq_settings = {
-  auto_start = 'shut-up',
+    auto_start = "shut-up",
+    keymap = {
+        jump_to_mark = "<C-s>",
+        bigger_preview = "<C-o>",
+    }
 }
