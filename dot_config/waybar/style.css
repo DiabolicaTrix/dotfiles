@@ -1,0 +1,70 @@
+@import "themes/catpuccin-macchiato.css";
+
+* {
+	font-size: 25px;
+	font-family: JetBrains Mono Nerdfont;
+}
+
+window#waybar {
+	background: shade(@base, 0.9);
+	border: 2px solid alpha(@crust, 0.3);
+}
+
+#workspaces,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#memory,
+#cpu,
+#battery,
+#disk,
+#tray {
+	background: shade(@base, 0.9);
+}
+
+#workspaces button {
+	padding: 0 5px;
+	color: @text;
+}
+#workspaces button.focused {
+	color: @overlay0;
+}
+#workspaces button:hover {
+	box-shadow: inherit;
+	text-shadow: inherit;
+}
+#workspaces button:hover {
+	background: shade(@base, 0.9);
+	border: shade(@base, 0.9);
+	padding: 0 5px;
+}
+
+#pulseaudio {
+	color: @blue;
+}
+#memory {
+	color: @teal;
+}
+#cpu {
+	color: @lavender;
+}
+#battery {
+	color: @red;
+}
+#disk {
+	color: @peach;
+}
+
+#clock {
+    color: @text;
+}
+
+#clock,
+#pulseaudio,
+#memory,
+#cpu,
+#battery,
+#disk {
+	padding: 0 10px;
+}
