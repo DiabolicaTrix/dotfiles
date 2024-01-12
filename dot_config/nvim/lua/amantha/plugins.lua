@@ -9,19 +9,15 @@ return require('packer').startup(function(use)
     use {
         'ms-jpq/coq_nvim',
         branch = 'coq',
-        requires = {'kyazdani42/nvim-web-devicons'}
+        requires = { 'kyazdani42/nvim-web-devicons' }
     }
     use {
         'ms-jpq/coq.artifacts',
         branch = 'artifacts',
-    }  
+    }
     use {
         'nvim-treesitter/nvim-treesitter',
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-    }
-    use {
-        'stevearc/aerial.nvim',
-        config = function() require('aerial').setup() end
     }
     use 'towolf/vim-helm' -- Helm not working properly with treesitter so using a custom plugin
 
@@ -38,18 +34,13 @@ return require('packer').startup(function(use)
     use {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
-        requires = { {"nvim-lua/plenary.nvim"} }
+        requires = { { "nvim-lua/plenary.nvim" } }
     }
-
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { {'nvim-lua/plenary.nvim'}, { 'kyazdani42/nvim-web-devicons', opt = true } }
+        requires = { { 'nvim-lua/plenary.nvim' }, { 'kyazdani42/nvim-web-devicons', opt = true } }
     }
 
-    use {
-        'romgrk/barbar.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -66,10 +57,7 @@ return require('packer').startup(function(use)
     -- Coding
     use 'github/copilot.vim'
 
-    use 'ThePrimeagen/vim-be-good'
-
     if packer_bootstrap then
         require('packer').sync()
     end
 end)
-
