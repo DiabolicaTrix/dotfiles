@@ -22,6 +22,7 @@ lspconfig.groovyls.setup{
     cmd = { "java", "-jar", "~/.scripts/groovy-language-server-all.jar" },
     coq.lsp_ensure_capabilities()
 }
+lspconfig.dartls.setup(coq.lsp_ensure_capabilities())
 
 lspconfig.gdscript.setup(coq.lsp_ensure_capabilities())
 
@@ -44,6 +45,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<Leader>e', vim.lsp.diagnostic.show_line_diagnostics, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     --vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, opts)
