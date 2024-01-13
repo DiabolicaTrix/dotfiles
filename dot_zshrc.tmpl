@@ -1,5 +1,8 @@
 ### PATH
 PATH=$PATH:$HOME/go/bin:$HOME/.scripts:$HOME/.bin/flutter/bin
+BUN_INSTALL="$HOME/.bun"
+PATH="$BUN_INSTALL/bin:$PATH"
+
 ZSH="$HOME/.zsh"
 
 ### SSH Agent
@@ -86,7 +89,9 @@ if [[ -f $HOME/.aliases.work ]]; then
   source $HOME/.aliases.work
 fi
 
+### Completions
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 ulimit -n 50240
 
