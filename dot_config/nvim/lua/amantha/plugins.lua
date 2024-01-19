@@ -1,5 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
+
+
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
@@ -11,7 +13,16 @@ return require('packer').startup(function(use)
     use {
         'ms-jpq/coq_nvim',
         branch = 'coq',
-        requires = { 'kyazdani42/nvim-web-devicons' }
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function()
+            vim.g.coq_settings = {
+                auto_start = "shut-up",
+                keymap = {
+                    jump_to_mark = "<C-s>",
+                    bigger_preview = "<C-o>",
+                }
+            }
+        end
     }
     use {
         'ms-jpq/coq.artifacts',
@@ -52,7 +63,13 @@ return require('packer').startup(function(use)
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
     -- Theming
-    use { "catppuccin/nvim", as = "catppuccin" }
+    use {
+        "catppuccin/nvim",
+        as = "catppuccin",
+        config = function()
+            vim.cmd("colorscheme catppuccin-macchiato")
+        end
+    }
 
     -- Text Editing
     use 'tpope/vim-sensible'
@@ -63,6 +80,11 @@ return require('packer').startup(function(use)
     -- Coding
     use {
         'github/copilot.vim',
+        config = function()
+            vim.g.copilot_filetypes = {
+                ["*"] = false,
+            }
+        end
     }
 
     if packer_bootstrap then
