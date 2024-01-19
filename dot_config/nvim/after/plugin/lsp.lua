@@ -1,5 +1,13 @@
 local coq = require("coq")
 
+-- none-ls
+local none_ls = require("null-ls")
+none_ls.setup({
+    sources = {
+        none_ls.builtins.formatting.prettier
+    }
+})
+
 -- Mason
 -- Needs to be setup before lspconfig
 require("mason").setup()
@@ -20,7 +28,7 @@ require("mason-lspconfig").setup({
     },
 
     handlers = {
-        function(server_name)  -- default handler (optional)
+        function(server_name) -- default handler (optional)
             require("lspconfig")[server_name].setup(coq.lsp_ensure_capabilities())
         end,
 

@@ -14,15 +14,23 @@ export LD_LIBRARY_PATH="/usr/local/lib"
 YKCS_PROVIDER="/usr/local/lib"
 YKCS_PATH="$YKCS_PROVIDER/libykcs11.so"
 {{- end }}
-# Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
-eval $(ssh-agent -s -P "$YKCS_PROVIDER/*" | grep SSH_)
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+    # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
+    eval $(ssh-agent -s -P "$YKCS_PROVIDER/*" | grep SSH_)
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
-# Check if a YubiKey is detected
-ykman info &> /dev/null
-if [[ "$?" == 0 ]]; then
-  # Add PIV card
-  # NOTE: this will require the Yubikey pin when loading
-  ssh-add -s "$YKCS_PATH"
+# Only add if not already loaded
+ssh-add -l > /dev/null
+if [[ "$?" == 1 ]]; then
+    # Check if a YubiKey is detected
+    ykman info &> /dev/null
+    if [[ "$?" == 0 ]]; then
+        # Add PIV card
+        # NOTE: this will require the Yubikey pin when loading
+        ssh-add -l > /dev/null || ssh-add -s "$YKCS_PATH"
+    fi
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.

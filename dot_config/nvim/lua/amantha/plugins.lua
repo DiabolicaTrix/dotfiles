@@ -20,6 +20,7 @@ return require('packer').startup(function(use)
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     }
     use 'towolf/vim-helm' -- Helm not working properly with treesitter so using a custom plugin
+    use 'nvimtools/none-ls.nvim'
 
     -- Debugging
     use 'mfussenegger/nvim-dap'
