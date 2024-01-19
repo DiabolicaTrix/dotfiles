@@ -20,7 +20,7 @@ vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
 
-vim.opt.scrolloff = 8 
+vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 
 vim.opt.updatetime = 50
@@ -37,4 +37,8 @@ vim.g.coq_settings = {
         jump_to_mark = "<C-s>",
         bigger_preview = "<C-o>",
     }
+}
+
+vim.g.copilot_filetypes = {
+    ["*"] = false,
 }

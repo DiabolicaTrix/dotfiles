@@ -1,3 +1,5 @@
+vim.cmd [[packadd packer.nvim]]
+
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
@@ -14,6 +16,9 @@ return require('packer').startup(function(use)
     use {
         'ms-jpq/coq.artifacts',
         branch = 'artifacts',
+    }
+    use {
+        'ms-jpq/coq.thirdparty',
     }
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -56,7 +61,9 @@ return require('packer').startup(function(use)
     use 'tpope/vim-fugitive'
 
     -- Coding
-    use 'github/copilot.vim'
+    use {
+        'github/copilot.vim',
+    }
 
     if packer_bootstrap then
         require('packer').sync()

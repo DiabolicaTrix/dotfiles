@@ -1,4 +1,16 @@
 local coq = require("coq")
+local coq_3p = require("coq_3p")
+coq_3p({
+    { src = "copilot", short_name = "COP", accept_key = '<c-f>' },
+    {
+        src = "repl",
+        sh = "zsh",
+        max_lines = 99,
+        deadline = 500,
+        unsafe = { "rm", "poweroff", "mv" }
+    }
+})
+
 
 -- none-ls
 local none_ls = require("null-ls")
@@ -45,6 +57,15 @@ require("mason-lspconfig").setup({
             }
         end,
     }
+})
+
+-- Prolog stuff
+-- TODO: Remove after AI class
+require('lspconfig').prolog_ls.setup(coq.lsp_ensure_capabilities())
+vim.filetype.add({
+    extension = {
+        pl = 'prolog',
+    },
 })
 
 vim.keymap.set('n', '[e', vim.diagnostic.open_float)
