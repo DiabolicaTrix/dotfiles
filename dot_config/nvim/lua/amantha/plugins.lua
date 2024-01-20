@@ -1,7 +1,3 @@
-vim.cmd [[packadd packer.nvim]]
-
-
-
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
@@ -11,32 +7,27 @@ return require('packer').startup(function(use)
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
     use {
-        'ms-jpq/coq_nvim',
-        branch = 'coq',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function()
-            vim.g.coq_settings = {
-                auto_start = "shut-up",
-                keymap = {
-                    jump_to_mark = "<C-s>",
-                    bigger_preview = "<C-o>",
-                }
-            }
-        end
-    }
-    use {
-        'ms-jpq/coq.artifacts',
-        branch = 'artifacts',
-    }
-    use {
-        'ms-jpq/coq.thirdparty',
-    }
-    use {
         'nvim-treesitter/nvim-treesitter',
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     }
     use 'towolf/vim-helm' -- Helm not working properly with treesitter so using a custom plugin
     use 'nvimtools/none-ls.nvim'
+
+    -- Completion
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-nvim-lsp',
+            'petertriho/cmp-git',
+            'onsails/lspkind.nvim',
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+        }
+    }
 
     -- Debugging
     use 'mfussenegger/nvim-dap'
@@ -71,6 +62,7 @@ return require('packer').startup(function(use)
         end
     }
 
+
     -- Text Editing
     use 'tpope/vim-sensible'
     use 'tpope/vim-surround'
@@ -79,12 +71,27 @@ return require('packer').startup(function(use)
 
     -- Coding
     use {
-        'github/copilot.vim',
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
         config = function()
-            vim.g.copilot_filetypes = {
-                ["*"] = false,
-            }
+            require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+            })
+        end,
+    }
+    use {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
         end
+    }
+    use {
+        "jonahgoldwastaken/copilot-status.nvim",
+        after = { "copilot.lua" },
+        event = "BufReadPost",
     }
 
     if packer_bootstrap then
