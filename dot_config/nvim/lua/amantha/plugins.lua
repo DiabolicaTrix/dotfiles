@@ -48,11 +48,22 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim',
         requires = { { 'nvim-lua/plenary.nvim' }, { 'kyazdani42/nvim-web-devicons', opt = true } }
     }
+    use {
+        'jinh0/eyeliner.nvim',
+        config = function()
+            require 'eyeliner'.setup {
+                highlight_on_key = true,
+                dim = true
+            }
+        end
+    }
 
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
+
+
     -- Theming
     use {
         "catppuccin/nvim",
@@ -62,14 +73,17 @@ return require('packer').startup(function(use)
         end
     }
 
-
     -- Text Editing
     use 'tpope/vim-sensible'
     use 'tpope/vim-surround'
     use 'tpope/vim-endwise'
-    use 'tpope/vim-fugitive'
+    use 'tpope/vim-commentary'
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
 
-    -- Coding
+    -- Copilot
     use {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
@@ -93,6 +107,9 @@ return require('packer').startup(function(use)
         after = { "copilot.lua" },
         event = "BufReadPost",
     }
+
+    --- Integrations
+    use 'tpope/vim-fugitive'
 
     if packer_bootstrap then
         require('packer').sync()

@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 
+vim.keymap.set("n", "<C-p>", ":Ex<CR>")
+
 -- Text Movement
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -19,10 +21,6 @@ vim.keymap.set('n', '<Leader>pf', telescope.find_files, {})
 vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
 vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
 vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
-
--- Copilot
-vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap("i", "<C-CR>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- Clipboard
 vim.api.nvim_set_keymap("v", "<Leader>y", '"+y', { noremap = true })
