@@ -18,6 +18,7 @@ require("mason-lspconfig").setup({
         "pyright",
         "tsserver",
         "lua_ls",
+        "rust_analyzer",
         -- Tools
         "terraformls",
         "dockerls",
