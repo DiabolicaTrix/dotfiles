@@ -2,6 +2,12 @@ alias vi=$EDITOR
 alias vim=$EDITOR
 alias yqx="yq e -C -P -"
 
+# List directory contents
+alias lsa='ls -lah'
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'
+
 # Kubernetes
 alias ke="k exec -it"
 alias kns=kubens
