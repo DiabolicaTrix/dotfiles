@@ -38,12 +38,12 @@ export VK_LAYER_PATH=$VULKAN_SDK/share/vulkan/explicit_layer.d
 {{- end }}
 
 ### PATH
-path+=('$HOME/.scripts')
-[[ ! -f $HOME/go/bin ]] || path+=('$HOME/go/bin')
-[[ ! -f $HOME/.bin/flutter/bin ]] || path+=('$HOME/.bin/flutter/bin')
-[[ ! -f $HOME/.bun ]] || BUN_INSTALL="$HOME/.bun"; path+=("$BUN_INSTALL/bin")
+path+=("$HOME/.scripts")
+[[ ! -d $HOME/go/bin ]] || path+=("$HOME/go/bin")
+[[ ! -d $HOME/.bin/flutter/bin ]] || path+=("$HOME/.bin/flutter/bin")
+[[ ! -d $HOME/.bun ]] || BUN_INSTALL="$HOME/.bun"; path+=("$BUN_INSTALL/bin")
 [[ ! -f $HOME/.cargo/env ]] || source $HOME/.cargo/env 
-[[ ! -f $VULKAN_SDK ]] || path+=('$VULKAN_SDK/bin')
+[[ ! -d $VULKAN_SDK ]] || path+=("$VULKAN_SDK/bin")
 export PATH
 
 ### Theming

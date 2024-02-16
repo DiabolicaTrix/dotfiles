@@ -2,9 +2,11 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- none-ls
 local none_ls = require("null-ls")
+
 none_ls.setup({
     sources = {
-        none_ls.builtins.formatting.prettier
+        none_ls.builtins.formatting.prettier,
+        none_ls.builtins.formatting.goimports
     }
 })
 
@@ -71,6 +73,7 @@ vim.keymap.set('n', '<Leader>fd', ':Telescope diagnostics<CR>')
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -82,7 +85,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, opts)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        --vim.keymap.set('n', '<C-K>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', 'L', vim.lsp.buf.signature_help, opts)
         vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, opts)
         vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
         vim.keymap.set('n', '<Leader>wl', function()
@@ -95,5 +98,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<Leader>bf', function()
             vim.lsp.buf.format { async = true }
         end, opts)
+
+        print(vim.inspect(client))
+        if client.server_capabilities.documentFormattingProvider then
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("UserLspFormat", { clear = true }),
+                buffer = ev.buf,
+                callback = function()
+                    vim.lsp.buf.format()
+                end
+            })
+        end
     end,
 })
