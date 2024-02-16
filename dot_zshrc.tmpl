@@ -2,23 +2,16 @@ ZSH="$HOME/.zsh"
 
 ### SSH Agent
 {{- if eq .chezmoi.os "darwin" }}
-YKCS_PROVIDER="/opt/homebrew/lib"
-YKCS_PATH="$YKCS_PROVIDER/libykcs11.dylib"
+YKCS_PATH=$(realpath "/opt/homebrew/lib/libykcs11.dylib")
 {{- else if eq .chezmoi.os "linux" }}
 export LD_LIBRARY_PATH="/usr/local/lib"
-YKCS_PROVIDER="/usr/local/lib"
-YKCS_PATH="$YKCS_PROVIDER/libykcs11.so"
+YKCS_PATH="/usr/local/lib/libykcs11.so"
 {{- end }}
 if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
     # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
-    eval $(ssh-agent -s -P "$YKCS_PROVIDER/*" | grep SSH_)
+    eval $(ssh-agent -s -P "$YKCS_PATH" | grep SSH_)
     ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
-fi
-export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
 
-# Only add if not already loaded
-ssh-add -l > /dev/null
-if [[ "$?" == 1 ]]; then
     # Check if a YubiKey is detected
     ykman info &> /dev/null
     if [[ "$?" == 0 ]]; then
@@ -27,6 +20,7 @@ if [[ "$?" == 1 ]]; then
         ssh-add -l > /dev/null || ssh-add -s "$YKCS_PATH"
     fi
 fi
+export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
