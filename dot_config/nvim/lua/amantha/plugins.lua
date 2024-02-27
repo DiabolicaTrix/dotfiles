@@ -77,6 +77,7 @@ return require('packer').startup(function(use)
     use 'tpope/vim-sensible'
     use 'tpope/vim-surround'
     use 'tpope/vim-endwise'
+    use 'tpope/vim-sleuth'
     use 'tpope/vim-commentary'
     use {
         "windwp/nvim-autopairs",
