@@ -22,15 +22,19 @@ vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
 vim.keymap.set('n', '<leader>fb', telescope.buffers, {})
 vim.keymap.set('n', '<leader>fh', telescope.help_tags, {})
 
--- Clipboard
-vim.api.nvim_set_keymap("v", "<Leader>y", '"+y', { noremap = true })
-vim.api.nvim_set_keymap("n", "<Leader>y", '"+y', { noremap = true })
-vim.api.nvim_set_keymap("n", "<Leader>Y", '"+yg_', { noremap = true })
+-- Misc
+local lazygit = require('lazygit')
+vim.keymap.set("n", "<Leader>gg", lazygit.lazygit, {})
 
-vim.api.nvim_set_keymap("v", "<Leader>p", '"+p', { noremap = true })
-vim.api.nvim_set_keymap("v", "<Leader>P", '"+P', { noremap = true })
-vim.api.nvim_set_keymap("n", "<Leader>p", '"+p', { noremap = true })
-vim.api.nvim_set_keymap("n", "<Leader>P", '"+P', { noremap = true })
+-- Clipboard
+vim.keymap.set("v", "<Leader>y", '"+y', { noremap = true })
+vim.keymap.set("n", "<Leader>y", '"+y', { noremap = true })
+vim.keymap.set("n", "<Leader>Y", '"+yg_', { noremap = true })
+
+vim.keymap.set("v", "<Leader>p", '"+p', { noremap = true })
+vim.keymap.set("v", "<Leader>P", '"+P', { noremap = true })
+vim.keymap.set("n", "<Leader>p", '"+p', { noremap = true })
+vim.keymap.set("n", "<Leader>P", '"+P', { noremap = true })
 
 -- Disable Arrow Keys
 for _, mode in pairs({ 'n', 'i', 'v', 'x' }) do

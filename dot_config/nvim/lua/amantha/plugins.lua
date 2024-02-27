@@ -110,6 +110,12 @@ return require('packer').startup(function(use)
 
     --- Integrations
     use 'tpope/vim-fugitive'
+    use({
+        "kdheepak/lazygit.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+        },
+    })
 
     if packer_bootstrap then
         require('packer').sync()
