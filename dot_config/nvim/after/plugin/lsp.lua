@@ -10,6 +10,9 @@ none_ls.setup({
     }
 })
 
+local on_attach = function(client, bufnr)
+end
+
 -- Mason
 -- Needs to be setup before lspconfig
 require("mason").setup()
@@ -35,6 +38,47 @@ require("mason-lspconfig").setup({
             require("lspconfig")[server_name].setup({
                 capabilities = capabilities
             })
+        end,
+
+        ["yamlls"] = function()
+            local lspconfig = require("lspconfig")
+            lspconfig.yamlls.setup {
+                capabilities = capabilities,
+                on_attach = function(client, bufnr)
+                    if client.name == "yamlls" and vim.bo.filetype == "helm" then
+                        vim.lsp.stop_client(client.id)
+                    end
+                end,
+                settings = {
+                    schemaStore = {
+                        url = "https://www.schemastore.org/api/json/catalog.json",
+                        enable = true,
+                    },
+                    yaml = {
+                        schemas = {
+                            ["kubernetes"] = "/*.yaml",
+                        },
+                    },
+                }
+            }
+        end,
+
+        ["helm_ls"] = function()
+            local lspconfig = require("lspconfig")
+            lspconfig.helm_ls.setup {
+                settings = {
+                    ["helm-ls"] = {
+                        yamlls = {
+                            path = "yaml-language-server",
+                            config = {
+                                schemas = {
+                                    ["kubernetes"] = "/*.yaml",
+                                },
+                            }
+                        },
+                    },
+                },
+            }
         end,
 
         ["lua_ls"] = function()
@@ -77,6 +121,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
+
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf }
@@ -99,7 +144,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.lsp.buf.format { async = true }
         end, opts)
 
-        print(vim.inspect(client))
         if client.server_capabilities.documentFormattingProvider then
             vim.api.nvim_create_autocmd("BufWritePre", {
                 group = vim.api.nvim_create_augroup("UserLspFormat", { clear = true }),
