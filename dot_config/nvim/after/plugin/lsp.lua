@@ -6,12 +6,10 @@ local none_ls = require("null-ls")
 none_ls.setup({
     sources = {
         none_ls.builtins.formatting.prettier,
+        none_ls.builtins.formatting.stylua,
         none_ls.builtins.formatting.goimports
     }
 })
-
-local on_attach = function(client, bufnr)
-end
 
 -- Mason
 -- Needs to be setup before lspconfig
@@ -114,13 +112,22 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '[q', vim.diagnostic.setloclist)
 vim.keymap.set('n', '<Leader>fd', ':Telescope diagnostics<CR>')
 
+local format = function(bufnr)
+    vim.lsp.buf.format(
+        {
+            filter = function(c)
+                return c.name == "null-ls"
+            end,
+            bufnr = bufnr,
+        }
+    )
+end
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -141,15 +148,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, opts)
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
         vim.keymap.set('n', '<Leader>bf', function()
-            vim.lsp.buf.format { async = true }
+            vim.lsp.buf.format(
+                {
+                    async = true
+                }
+            )
         end, opts)
 
-        if client.server_capabilities.documentFormattingProvider then
+        if client.supports_method("textDocument/formatting") then
+            local augroup = vim.api.nvim_create_augroup("UserLspFormat", { clear = true })
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = ev.buf })
             vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("UserLspFormat", { clear = true }),
+                group = augroup,
                 buffer = ev.buf,
                 callback = function()
-                    vim.lsp.buf.format()
+                    format(ev.buf)
                 end
             })
         end
