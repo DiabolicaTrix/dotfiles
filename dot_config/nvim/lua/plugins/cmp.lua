@@ -11,7 +11,6 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'petertriho/cmp-git',
             'onsails/lspkind.nvim',
-            'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
         },
         config = function()
@@ -78,5 +77,6 @@ return {
                 })
             })
         end,
-    }
+    },
+    {'L3MON4D3/LuaSnip', lazy = true},
 }

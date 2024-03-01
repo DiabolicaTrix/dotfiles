@@ -8,10 +8,7 @@ return {
             panel = { enabled = false },
         },
         dependencies = {
-            {
-                "zbirenbaum/copilot-cmp",
-                opts = {}
-            },
+            { "zbirenbaum/copilot-cmp", opts = {} },
         }
     },
 }

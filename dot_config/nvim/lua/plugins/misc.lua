@@ -8,14 +8,6 @@ return {
         end,
     },
     {
-        'jinh0/eyeliner.nvim',
-        lazy = true,
-        opts = {
-            highlight_on_key = true,
-            dim = true
-        }
-    },
-    {
         'nvim-lualine/lualine.nvim',
         opts = {
             options = { theme = 'palenight' },
@@ -26,17 +18,15 @@ return {
             }
         },
         dependencies = {
-            'nvim-tree/nvim-web-devicons'
         }
     },
+    {"nvim-lua/plenary.nvim", lazy = true},
+    {'nvim-tree/nvim-web-devicons', lazy = true},
     'tpope/vim-sensible',
     'tpope/vim-surround',
     'tpope/vim-endwise',
     'tpope/vim-sleuth',
     'tpope/vim-commentary',
-    {'windwp/nvim-autopairs', opts = {}},
+    { 'windwp/nvim-autopairs', opts = {} },
+    { 'kdheepak/lazygit.nvim', cmd = "LazyGit", keys = { { "<Leader>gg", function() require('lazygit').lazygit() end } } }
 }
-
--- -- Misc
--- local lazygit = require('lazygit')
--- vim.keymap.set("n", "<Leader>gg", lazygit.lazygit, {})

@@ -1,66 +1,73 @@
-vim.keymap.set("n", "[e", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-vim.keymap.set("n", "[q", vim.diagnostic.setloclist)
-vim.keymap.set("n", "<Leader>fd", ":Telescope diagnostics<CR>")
+return {
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+		keys = {
+			{"[e", vim.diagnostic.open_float},
+			{"[d", vim.diagnostic.goto_prev},
+			{"]d", vim.diagnostic.goto_next},
+			{"[q", vim.diagnostic.setloclist},
+			{"<Leader>fd", ":Telescope diagnostics<CR>"},
+		},
+		config = function ()
+			local format = function(bufnr)
+				vim.lsp.buf.format({
+					filter = function(c)
+						return c.name == "null-ls"
+					end,
+					bufnr = bufnr,
+				})
+			end
 
-local format = function(bufnr)
-	vim.lsp.buf.format({
-		filter = function(c)
-			return c.name == "null-ls"
-		end,
-		bufnr = bufnr,
-	})
-end
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-	callback = function(ev)
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "L", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<Leader>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
-		vim.keymap.set("n", "<Leader>gD", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<Leader>bf", function()
-			vim.lsp.buf.format({
-				async = true,
-			})
-		end, opts)
+					-- Buffer local mappings.
+					-- See `:help vim.lsp.*` for documentation on any of the below functions
+					local opts = { buffer = ev.buf }
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+					vim.keymap.set("n", "L", vim.lsp.buf.signature_help, opts)
+					vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+					vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+					vim.keymap.set("n", "<Leader>wl", function()
+						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+						end, opts)
+					vim.keymap.set("n", "<Leader>gD", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
+					vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					vim.keymap.set("n", "<Leader>bf", function()
+						vim.lsp.buf.format({
+							async = true,
+						})
+						end, opts)
 
-		if client.supports_method("textDocument/formatting") then
-			local augroup = vim.api.nvim_create_augroup("UserLspFormat", { clear = true })
-			vim.api.nvim_clear_autocmds({ group = augroup, buffer = ev.buf })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = augroup,
-				buffer = ev.buf,
-				callback = function()
-					format(ev.buf)
+					if client.supports_method("textDocument/formatting") then
+						local augroup = vim.api.nvim_create_augroup("UserLspFormat", { clear = true })
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = ev.buf })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = ev.buf,
+							callback = function()
+								format(ev.buf)
+							end,
+						})
+					end
 				end,
 			})
 		end
-	end,
-})
-
-return {
-	"neovim/nvim-lspconfig",
+	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		event = "VeryLazy",
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			require("mason").setup()
@@ -92,7 +99,7 @@ return {
 						local lspconfig = require("lspconfig")
 						lspconfig.yamlls.setup({
 							capabilities = capabilities,
-							on_attach = function(client, bufnr)
+							on_attach = function(client, _)
 								if client.name == "yamlls" and vim.bo.filetype == "helm" then
 									vim.lsp.stop_client(client.id)
 								end
@@ -155,6 +162,7 @@ return {
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+				sync_install = false,
 				auto_install = true,
 				highlight = {
 					enable = true,
