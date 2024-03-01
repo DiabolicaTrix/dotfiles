@@ -23,6 +23,8 @@ alias kdp="k describe pods"
 alias gc="git checkout"
 alias gp="git push"
 alias gcb="git checkout -B"
+alias lg="lazygit"
+
 
 function gci() {
   git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)
