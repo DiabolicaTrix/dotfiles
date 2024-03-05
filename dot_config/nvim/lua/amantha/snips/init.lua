@@ -1,1 +1,1 @@
-require('amantha.snips.go')
+-- require('amantha.snips.go')
