@@ -1,4 +1,18 @@
 return {
+	{ "echasnovski/mini.nvim" },
+	{
+		"echasnovski/mini.files",
+		lazy = false,
+		keys = {
+			{
+				"<C-p>",
+				function()
+					require("mini.files").open()
+				end,
+			},
+		},
+		opts = {},
+	},
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",

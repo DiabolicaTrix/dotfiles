@@ -3,13 +3,13 @@ return {
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		keys = {
-			{"[e", vim.diagnostic.open_float},
-			{"[d", vim.diagnostic.goto_prev},
-			{"]d", vim.diagnostic.goto_next},
-			{"[q", vim.diagnostic.setloclist},
-			{"<Leader>fd", ":Telescope diagnostics<CR>"},
+			{ "[e", vim.diagnostic.open_float },
+			{ "[d", vim.diagnostic.goto_prev },
+			{ "]d", vim.diagnostic.goto_next },
+			{ "[q", vim.diagnostic.setloclist },
+			{ "<Leader>fd", ":Telescope diagnostics<CR>" },
 		},
-		config = function ()
+		config = function()
 			local format = function(bufnr)
 				vim.lsp.buf.format({
 					filter = function(c)
@@ -39,7 +39,7 @@ return {
 					vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
 					vim.keymap.set("n", "<Leader>wl", function()
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-						end, opts)
+					end, opts)
 					vim.keymap.set("n", "<Leader>gD", vim.lsp.buf.type_definition, opts)
 					vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 					vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, opts)
@@ -48,7 +48,7 @@ return {
 						vim.lsp.buf.format({
 							async = true,
 						})
-						end, opts)
+					end, opts)
 
 					if client.supports_method("textDocument/formatting") then
 						local augroup = vim.api.nvim_create_augroup("UserLspFormat", { clear = true })
@@ -63,7 +63,7 @@ return {
 					end
 				end,
 			})
-		end
+		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
@@ -203,4 +203,9 @@ return {
 		end,
 	},
 	{ "towolf/vim-helm", ft = "helm" }, -- Helm not working properly with treesitter so using a custom plugin
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+	},
 }
