@@ -100,6 +100,9 @@ if [[ -f $HOME/.aliases.work ]]; then
   source $HOME/.aliases.work
 fi
 
+### Utilities
+source $HOME/.utils
+
 ### Completions
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"

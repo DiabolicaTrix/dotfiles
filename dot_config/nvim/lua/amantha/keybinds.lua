@@ -9,8 +9,13 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Resizing
-vim.keymap.set("n", "<C-<>", ":vertical resize -2<CR>")
-vim.keymap.set("n", "<C->>", ":vertical resize +2<CR>")
+vim.keymap.set('n', '<C-<>', ':vertical resize -2<CR>')
+vim.keymap.set('n', '<C->>', ':vertical resize +2<CR>')
+
+-- Quickfix
+vim.keymap.set('n', '<Leader>qo', ':copen<CR>')
+vim.keymap.set('n', '<Leader>j', ':cnext<CR>zz')
+vim.keymap.set('n', '<Leader>k', ':cprev<CR>zz')
 
 -- Clipboard
 vim.keymap.set("v", "<Leader>y", '"+y', { noremap = true })
