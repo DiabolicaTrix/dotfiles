@@ -3,10 +3,10 @@ return {
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		keys = {
-			{ "[e", vim.diagnostic.open_float },
-			{ "[d", vim.diagnostic.goto_prev },
-			{ "]d", vim.diagnostic.goto_next },
-			{ "[q", vim.diagnostic.setloclist },
+			{ "[e",         vim.diagnostic.open_float },
+			{ "[d",         vim.diagnostic.goto_prev },
+			{ "]d",         vim.diagnostic.goto_next },
+			{ "[q",         vim.diagnostic.setloclist },
 			{ "<Leader>fd", ":Telescope diagnostics<CR>" },
 		},
 		config = function()
@@ -18,6 +18,17 @@ return {
 					bufnr = bufnr,
 				})
 			end
+
+			-- Setup LSP that are not available with Mason
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			require("lspconfig").dartls.setup({
+				capabilities = capabilities,
+				settings = {
+					dart = {
+						analysisExcludedFolders = { ".dart_tool/**", "**/.pub-cache/**", "**/.bin/**" }
+					},
+				},
+			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),

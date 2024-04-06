@@ -7,7 +7,7 @@ ZSH="$HOME/.zsh"
 YKCS_PATH=$(realpath "/opt/homebrew/lib/libykcs11.dylib")
 {{- else if eq .chezmoi.os "linux" }}
 export LD_LIBRARY_PATH="/usr/local/lib"
-YKCS_PATH="/usr/local/lib/libykcs11.so"
+YKCS_PATH=$(realpath "/usr/local/lib/libykcs11.so")
 {{- end }}
 if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
     # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
