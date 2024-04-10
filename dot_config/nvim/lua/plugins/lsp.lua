@@ -118,10 +118,12 @@ return {
 							settings = {
 								schemaStore = {
 									url = "https://www.schemastore.org/api/json/catalog.json",
-									enable = true,
+									enable = false,
 								},
 								yaml = {
+									validate = false,
 									schemas = {
+										["file:///Users/amantha/.datree/crdSchemas/cluster.open-cluster-management.io/placement_v1beta1.json"] = "**/placements/**/*.yaml",
 										["kubernetes"] = "/*.yaml",
 									},
 								},
