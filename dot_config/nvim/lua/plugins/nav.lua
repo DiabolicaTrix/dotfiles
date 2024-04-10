@@ -1,17 +1,18 @@
 return {
-	{ "echasnovski/mini.nvim" },
 	{
-		"echasnovski/mini.files",
+		"stevearc/oil.nvim",
 		lazy = false,
 		keys = {
 			{
 				"<C-p>",
 				function()
-					require("mini.files").open()
+					require("oil").open()
 				end,
 			},
 		},
 		opts = {},
+		-- Optional dependencies
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
 		"ThePrimeagen/harpoon",
@@ -55,16 +56,6 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
-		config = function ()
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "TelescopeFindPre",
-				group = vim.api.nvim_create_augroup("UserTelescopeFindPre", {}),
-				callback = function()
-					-- mini.files makes telescope close the picker if left open
-					require("mini.files").close()
-				end,
-			})
-		end,
 		keys = {
 			{
 				"<Leader>ff",

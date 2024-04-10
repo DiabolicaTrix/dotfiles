@@ -10,3 +10,7 @@ function housekeep() {
     brew cleanup --prune=all
   fi
 }
+
+function svim() {
+  nvim oil-ssh://$1/$2
+}
