@@ -5,7 +5,7 @@ return {
 			{"<Leader>do", function() require('dapui').open() end},
 			{"<Leader>dc", function() require('dapui').close() end},
 			{"<Leader>dr", function() require('dap').restart() end},
-			{"<F5>", function()
+			{"<Leader>ds", function()
 				if vim.fn.filereadable(".vscode/launch.json") then
 					require("dap.ext.vscode").load_launchjs()
 				end
@@ -30,37 +30,38 @@ return {
 			{ "theHamsta/nvim-dap-virtual-text", opts = {} },
 			{
 				"rcarriga/nvim-dap-ui",
+				dependencies = {
+					{ "nvim-neotest/nvim-nio" }
+				},
 				opts = {
-					{
-						layouts = {
-							{
-								elements = {
-									{
-										id = "scopes",
-										size = 0.50,
-									},
-									{
-										id = "watches",
-										size = 0.30,
-									},
-									{
-										id = "breakpoints",
-										size = 0.20,
-									},
+					layouts = {
+						{
+							elements = {
+								{
+									id = "scopes",
+									size = 0.50,
 								},
-								position = "left",
-								size = 40,
-							},
-							{
-								elements = {
-									{
-										id = "repl",
-										size = 1,
-									},
+								{
+									id = "watches",
+									size = 0.30,
 								},
-								position = "bottom",
-								size = 10,
+								{
+									id = "breakpoints",
+									size = 0.20,
+								},
 							},
+							position = "left",
+							size = 40,
+						},
+						{
+							elements = {
+								{
+									id = "repl",
+									size = 1,
+								},
+							},
+							position = "bottom",
+							size = 10,
 						},
 					},
 				},

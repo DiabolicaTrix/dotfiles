@@ -10,12 +10,14 @@ return {
 			{ "<Leader>fd", ":Telescope diagnostics<CR>" },
 		},
 		config = function()
-			local format = function(bufnr)
+			local format = function(bufnr, async)
+				async = async or false
 				vim.lsp.buf.format({
 					filter = function(c)
 						return c.name == "null-ls"
 					end,
 					bufnr = bufnr,
+					async = async,
 				})
 			end
 
@@ -56,9 +58,7 @@ return {
 					vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, opts)
 					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 					vim.keymap.set("n", "<Leader>bf", function()
-						vim.lsp.buf.format({
-							async = true,
-						})
+						format(vim.api.nvim_get_current_buf(), true)
 					end, opts)
 
 					if client.supports_method("textDocument/formatting") then
@@ -68,7 +68,7 @@ return {
 							group = augroup,
 							buffer = ev.buf,
 							callback = function()
-								format(ev.buf)
+								-- format(ev.buf)
 							end,
 						})
 					end
@@ -123,7 +123,8 @@ return {
 								yaml = {
 									validate = false,
 									schemas = {
-										["file:///Users/amantha/.datree/crdSchemas/cluster.open-cluster-management.io/placement_v1beta1.json"] = "**/placements/**/*.yaml",
+										["file:///Users/amantha/.datree/crdSchemas/cluster.open-cluster-management.io/placement_v1beta1.json"] =
+										"**/placements/**/*.yaml",
 										["kubernetes"] = "/*.yaml",
 									},
 								},

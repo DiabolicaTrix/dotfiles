@@ -27,6 +27,8 @@ vim.keymap.set("v", "<Leader>P", '"+P', { noremap = true })
 vim.keymap.set("n", "<Leader>p", '"+p', { noremap = true })
 vim.keymap.set("n", "<Leader>P", '"+P', { noremap = true })
 
+vim.keymap.set("i", "<C-C>", "<ESC>", { noremap = true })
+
 -- Disable Arrow Keys
 for _, mode in pairs({ "n", "i", "v", "x" }) do
 	for _, key in pairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
