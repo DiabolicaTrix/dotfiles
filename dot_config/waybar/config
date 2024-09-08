@@ -6,6 +6,7 @@
 
 	"modules-left": [
 		"sway/workspaces",
+        "hyprland/workspaces",
 	],
 	"modules-center": [
 	],
@@ -20,6 +21,11 @@
 	],
 
 	"sway/workspaces": {
+		"disable-scroll": true,
+		"format": "{name}"
+	},
+    
+	"hyprland/workspaces": {
 		"disable-scroll": true,
 		"format": "{name}"
 	},

@@ -15,9 +15,9 @@ set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu ~/.config/rofi/scripts/launcher_t1 | xargs swaymsg exec --
-set $powermenu ~/.config/rofi/scripts/powermenu_t1 | xargs swaymsg exec --
-set $screenshot ~/.config/rofi/applets/bin/screenshot.sh | xargs swaymsg exec --
+set $menu ~/.config/rofi/bin/launcher | xargs swaymsg exec --
+set $powermenu ~/.config/rofi/bin/powermenu | xargs swaymsg exec --
+set $screenshot ~/.config/rofi/bin/screenshot | xargs swaymsg exec --
 
 set $output_left HDMI-A-1
 
@@ -46,13 +46,13 @@ output $output_left {
   scale 1.25
   scale_filter smart
   mode 3840x2160@120.00Hz
-  render_bit_depth 10
+  render_bit_depth 8
   adaptive_sync on
   max_render_time 1
 }
 
 ### Idle configuration
-exec_always swayidle -w timeout 300 '~/.scripts/lock' timeout 90 '~/.scripts/sleep' timeout 600 \\""systemctl suspend\\"" resume '~/.scripts/wake' before-sleep '~/.scripts/lock'
+exec_always swayidle -w timeout 300 '~/.scripts/lock' timeout 300 '~/.scripts/sleep' timeout 600 \\""systemctl suspend\\"" resume '~/.scripts/wake' before-sleep '~/.scripts/lock'
 
 bindsym $mod+l exec ~/.scripts/lock
 
@@ -89,7 +89,7 @@ exec wl-paste -t text --watch clipman store --no-persist
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+Space exec $menu
     bindsym $mod+x exec $powermenu
 
     # Screenshot
@@ -201,7 +201,7 @@ exec wl-paste -t text --watch clipman store --no-persist
     bindsym $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    # bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
@@ -243,6 +243,9 @@ bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+for_window [window_type="dialog"] floating enable
+for_window [title="IFT-3100"] floating enable
 
 #
 # Status Bar:
