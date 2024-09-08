@@ -1,0 +1,38 @@
+#!/bin/zsh
+# vi: ft=zsh
+
+ZSH="$HOME/.zsh"
+
+### SSH Agent
+{{- if eq .chezmoi.os "darwin" }}
+YKCS_PATH=$(realpath "/opt/homebrew/lib/libykcs11.dylib")
+{{- else if eq .chezmoi.os "linux" }}
+export LD_LIBRARY_PATH="/usr/local/lib"
+YKCS_PATH=$(realpath "/usr/local/lib/libykcs11.so")
+{{- end }}
+timeout 0.25s ssh git@github.com 2&> /dev/null
+can_ssh=$?
+# Expect the command to timeout because it is waiting for user input
+# Timeout exit code is 124
+if [ ! -S $HOME/.ssh/ssh_auth_sock ] || [ $can_ssh -ne 124 ]; then
+    # Validate if the YubiKey is connected first, lsusb is much faster than ykman info
+    if ! lsusb | grep -q Yubico; then
+        echo "YubiKey not detected. Exiting."
+        exit 1
+    fi
+
+    # Start SSH agent
+    # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
+    eval $(ssh-agent -s -P "$YKCS_PATH" | grep SSH_)
+    ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
+
+    # Check if a YubiKey is detected
+    # Validate if the YubiKey is connected first, lsusb is much faster than ykman info
+    if ! lsusb | grep -q Yubico; then
+        echo "YubiKey not detected. Exiting."
+        exit 1
+    else
+        ssh-add -l > /dev/null || ssh-add -s "$YKCS_PATH"
+    fi
+fi
+export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock

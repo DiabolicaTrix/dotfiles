@@ -3,26 +3,7 @@
 ZSH="$HOME/.zsh"
 
 ### SSH Agent
-{{- if eq .chezmoi.os "darwin" }}
-YKCS_PATH=$(realpath "/opt/homebrew/lib/libykcs11.dylib")
-{{- else if eq .chezmoi.os "linux" }}
-export LD_LIBRARY_PATH="/usr/local/lib"
-YKCS_PATH=$(realpath "/usr/local/lib/libykcs11.so")
-{{- end }}
-if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
-    # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
-    eval $(ssh-agent -s -P "$YKCS_PATH" | grep SSH_)
-    ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
-
-    # Check if a YubiKey is detected
-    ykman info &> /dev/null
-    if [[ "$?" == 0 ]]; then
-        # Add PIV card
-        # NOTE: this will require the Yubikey pin when loading
-        ssh-add -l > /dev/null || ssh-add -s "$YKCS_PATH"
-    fi
-fi
-export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
+source ~/.scripts/yubikey
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -79,9 +60,6 @@ for config_file ("$ZSH"/lib/*.zsh); do
   source "$config_file"
 done
 
-### TMUX Config
-export KUBE_TMUX_CLUSTER_FUNCTION=get_cluster_short
-
 ### Editor
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
@@ -122,3 +100,6 @@ bindkey -v
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Autostart zellij
+eval "$(zellij setup --generate-auto-start zsh)"
