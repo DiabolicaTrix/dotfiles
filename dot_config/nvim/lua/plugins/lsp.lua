@@ -165,10 +165,10 @@ return {
 					end,
 
 					["tsserver"] = function()
-						local lspconfig = require('lspconfig')
+						local lspconfig = require("lspconfig")
 						local mason_registry = require('mason-registry')
-						local vue_language_server_path = mason_registry.get_package('vue-language-server')
-						:get_install_path() .. '/node_modules/@vue/language-server'
+						local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+
 						lspconfig.tsserver.setup({
 							init_options = {
 								plugins = {

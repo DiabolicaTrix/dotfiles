@@ -15,12 +15,6 @@ can_ssh=$?
 # Expect the command to timeout because it is waiting for user input
 # Timeout exit code is 124
 if [ ! -S $HOME/.ssh/ssh_auth_sock ] || [ $can_ssh -ne 124 ]; then
-    # Validate if the YubiKey is connected first, lsusb is much faster than ykman info
-    if ! lsusb | grep -q Yubico; then
-        echo "YubiKey not detected. Exiting."
-        exit 1
-    fi
-
     # Start SSH agent
     # Allow providers from yubico-piv-tool to be able to use libykcs11.dylib
     eval $(ssh-agent -s -P "$YKCS_PATH" | grep SSH_)
@@ -28,7 +22,11 @@ if [ ! -S $HOME/.ssh/ssh_auth_sock ] || [ $can_ssh -ne 124 ]; then
 
     # Check if a YubiKey is detected
     # Validate if the YubiKey is connected first, lsusb is much faster than ykman info
+    {{- if eq .chezmoi.os "darwin" }}
+    if ! system_profiler SPUSBDataType | grep -q Yubico; then
+    {{- else if eq .chezmoi.os "linux" }}
     if ! lsusb | grep -q Yubico; then
+    {{- end }}
         echo "YubiKey not detected. Exiting."
         exit 1
     else
