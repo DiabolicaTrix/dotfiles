@@ -2,16 +2,6 @@
 
 ZSH="$HOME/.zsh"
 
-### SSH Agent
-source ~/.scripts/yubikey
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 {{- if eq .chezmoi.os "darwin" }}
 # Vulkan (macOS only, works natively on Linux)
 export VULKAN_SDK=$HOME/VulkanSDK/1.3.275.0/macOS
@@ -28,6 +18,14 @@ path+=("$HOME/.scripts")
 [[ ! -f $HOME/.cargo/env ]] || source $HOME/.cargo/env 
 [[ ! -d $VULKAN_SDK ]] || path+=("$VULKAN_SDK/bin")
 export PATH
+
+{{ if eq .chezmoi.os "linux" }}
+### Force wayland
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORM=wayland
+export GDK_BACKEND=wayland
+export MOZ_ENABLE_WAYLAND=1
+{{ end }}
 
 ### Theming
 source "$HOME/.zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
@@ -60,18 +58,6 @@ for config_file ("$ZSH"/lib/*.zsh); do
   source "$config_file"
 done
 
-### Editor
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
-### History
-# Avoid duplicates
-HISTCONTROL=ignoredups:erasedups
-PROMPT_COMMAND="history -a; history -n"
-
 ### Aliases
 source $HOME/.aliases
 if [[ -f $HOME/.aliases.work ]]; then
@@ -83,20 +69,6 @@ source $HOME/.utils
 
 ### Completions
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
-[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
-
-ulimit -n 50240
-
-{{ if eq .chezmoi.os "linux" }}
-### Force wayland
-export QT_QPA_PLATFORMTHEME=qt5ct
-export QT_QPA_PLATFORM=wayland
-export GDK_BACKEND=wayland
-export MOZ_ENABLE_WAYLAND=1
-{{ end }}
-
-## Vim bindings
-bindkey -v
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
