@@ -5,10 +5,10 @@
 {{- if eq .chezmoi.os "darwin" }}
 YKCS_PATH=$(realpath "$YUBICO_PATH/libykcs11.dylib")
 {{- else if eq .chezmoi.os "linux" }}
-export LD_LIBRARY_PATH="/usr/local/lib"
-YKCS_PATH=$(realpath "/usr/local/lib/libykcs11.so")
+# export LD_LIBRARY_PATH="$YUBICO_PATH"
+YKCS_PATH=$(realpath "$YUBICO_PATH/libykcs11.so")
 {{- end }}
-timeout 0.25s ssh git@github.com 2&> /dev/null
+timeout 1s ssh git@github.com 2&> /dev/null
 can_ssh=$?
 # Expect the command to timeout because it is waiting for user input
 # Timeout exit code is 124
