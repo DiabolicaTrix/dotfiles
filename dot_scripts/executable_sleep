@@ -1,3 +1,0 @@
-#!/bin/zsh
-
-swaymsg "output * power off"
