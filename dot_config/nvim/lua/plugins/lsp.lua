@@ -289,7 +289,6 @@ return {
 					local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 					local workspace_dir = vim.env.HOME .. '/.cache/jdtls/workspaces/' .. project_name
 					local config_dir = vim.env.HOME .. '/.cache/jdtls/configuration'
-					local jdtls_path = vim.fn.expand('$HOME/.nix-profile/bin/jdtls.py')
 
 					local config = {
 						-- The command that starts the language server
